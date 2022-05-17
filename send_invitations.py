@@ -23,6 +23,7 @@ if __name__ == '__main__':
                 default_keyword = each[10]
                 default_location = each[11]
                 index = each[12]
+                title = each[13]
 
                 print("\n------------------------------------------------------------------\n")
                 print(f"Instance : Instance_{instance_name}\n"
@@ -30,6 +31,7 @@ if __name__ == '__main__':
                       f"Password : {password_from_sheet}\n"
                       f"Keyword : {default_keyword}\n"
                       f"Location : {default_location}\n"
+                      f"Title : {title}\n"
                       f"Account Index : {index}\n")
 
                 time.sleep(2)
@@ -46,7 +48,7 @@ if __name__ == '__main__':
                 }
 
                 print(f"Running....Instance_{instance_name}\n")
-                time.sleep(25)
+                time.sleep(28)
                 driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_cap_Linkedin)
 
                 if is_emulator_is_ready(driver):
@@ -56,7 +58,8 @@ if __name__ == '__main__':
                     turn_on_vpn_switch(driver)
 
                     if login(email_from_sheet, password_from_sheet, driver):
-                        # search_process(driver, search_word=default_keyword, location=default_location)
+                        search_process(driver, search_word=default_keyword, location=default_location, title=title)
+                        time.sleep(1)
                         # start_connect(driver, max_connects=default_max_follow_per_day, delay=default_delay)
                         logout(driver)
                         open_vpn_one_time(driver)

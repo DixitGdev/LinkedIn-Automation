@@ -36,7 +36,8 @@ def click_remember_me(driver):
 
 def click_messaging_button(driver):
     cb = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, f'//android.widget.Button[@resource-id="com.linkedin.android:id/home_messaging"]')))
+        EC.presence_of_element_located(
+            (By.XPATH, f'//android.widget.Button[@resource-id="com.linkedin.android:id/home_messaging"]')))
     cb.click()
 
 
@@ -178,6 +179,35 @@ def click_message_filter_button(driver):
     cb.click()
 
 
+def click_see_all_filter_button(driver):
+    cb = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located(
+            (By.XPATH,
+             f'//android.widget.ImageButton[@resource-id="com.linkedin.android:id/search_all_filters_button"]')))
+    cb.click()
+
+
+def click_keywords_button(driver):
+    cb = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located(
+            (By.XPATH,
+             f'//android.widget.TextView[@text="Keywords"]')))
+    cb.click()
+
+
+def type_title_field(driver, title):
+    all_fields = WebDriverWait(driver, 10).until(
+        EC.presence_of_all_elements_located(
+            (By.XPATH,
+             f'//android.widget.EditText[@resource-id="com.linkedin.android:id/search_filters_bottom_sheet_free_text_filter_input"]')))
+    all_fields[2].send_keys(title)
+
+
+def set_keyword_filer(driver):
+    swipe_one_time(driver)
+    click_keywords_button(driver)
+
+
 def click_personalize_invite(driver):
     time.sleep(2)
     cb = WebDriverWait(driver, 10).until(
@@ -224,6 +254,7 @@ def go_home(driver):
 def go_setting(driver):
     time.sleep(1)
     driver.start_activity('com.linkedin.android', 'com.linkedin.android.settings.ui.SettingsActivity')
+    time.sleep(1)
 
 
 def go_login_screen(driver):
@@ -319,7 +350,7 @@ def turn_on_vpn_switch(driver):
     print("Switched to Linkedin")
 
 
-def search_process(driver, search_word, location):
+def search_process(driver, search_word, location, title):
     time.sleep(2)
     click_search_bar(driver)
     click_and_inside_search_bar(driver, search_word)
@@ -330,6 +361,18 @@ def search_process(driver, search_word, location):
     click_auto_location_type(driver, location)
     click_first_search_result(driver)
     driver.back()
+    time.sleep(0.8)
+    click_see_all_filter_button(driver)
+    time.sleep(1)
+    swipe_one_time(driver)
+    click_keywords_button(driver)
+    type_title_field(driver, title)
+    time.sleep(0.8)
+    driver.back()
+    time.sleep(0.8)
+    driver.back()
+    time.sleep(0.5)
+
 
 
 def refresh_research(driver):
